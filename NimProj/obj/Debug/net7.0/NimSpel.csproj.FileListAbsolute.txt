@@ -1,0 +1,14 @@
+/Users/simonfallman/NimSpel/bin/Debug/net7.0/NimSpel
+/Users/simonfallman/NimSpel/bin/Debug/net7.0/NimSpel.deps.json
+/Users/simonfallman/NimSpel/bin/Debug/net7.0/NimSpel.runtimeconfig.json
+/Users/simonfallman/NimSpel/bin/Debug/net7.0/NimSpel.dll
+/Users/simonfallman/NimSpel/bin/Debug/net7.0/NimSpel.pdb
+/Users/simonfallman/NimSpel/obj/Debug/net7.0/NimSpel.GeneratedMSBuildEditorConfig.editorconfig
+/Users/simonfallman/NimSpel/obj/Debug/net7.0/NimSpel.AssemblyInfoInputs.cache
+/Users/simonfallman/NimSpel/obj/Debug/net7.0/NimSpel.AssemblyInfo.cs
+/Users/simonfallman/NimSpel/obj/Debug/net7.0/NimSpel.csproj.CoreCompileInputs.cache
+/Users/simonfallman/NimSpel/obj/Debug/net7.0/NimSpel.dll
+/Users/simonfallman/NimSpel/obj/Debug/net7.0/refint/NimSpel.dll
+/Users/simonfallman/NimSpel/obj/Debug/net7.0/NimSpel.pdb
+/Users/simonfallman/NimSpel/obj/Debug/net7.0/NimSpel.genruntimeconfig.cache
+/Users/simonfallman/NimSpel/obj/Debug/net7.0/ref/NimSpel.dll
