@@ -2,8 +2,8 @@
 {
     class Nim
     {
-        static string[] högar = new string[] {"|||||", "|||||", "|||||"};
-        static bool Spelare1Turn = true;
+        static string[] piles = new string[] {"|||||", "|||||", "|||||"};
+        static bool player1Turn = true;
         static string userNameMultiOne;
         static string userNameMultiTwo;
         static int player1win = 0;
@@ -13,21 +13,24 @@
         static void Main(string[] args)
         {
             Console.Clear();
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Välkommen till Nim!");
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("Spelet börjar med att man placerar fem stickor i tre olika högar.\n");           
+            Console.WriteLine("Därefter turas spelarna om att plocka stickor från dem tills de är tomma.\n"); 
+            Console.WriteLine("Den spelare som har plockat den sista stickan har vunnit spelet.\n");
             StartPage();
         }
         static void StartPage()
         {
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Välkommen till Nim!");
-            Console.WriteLine();
-            Console.WriteLine("Hur många är ni?");
             Console.WriteLine("Tryck 1 för Enspelarläge");
             Console.WriteLine("Tryck 2 för Tvåspelarläge");
-            Console.WriteLine("Tryck 3 för Spelregler");
-            Console.WriteLine("Tryck 4 för att Avsluta.");
+            Console.WriteLine("Tryck 3 för att Avsluta.");
             
-
             string userSelect = Console.ReadLine();
 
             switch (userSelect) 
@@ -35,8 +38,7 @@
                 case "1":
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.WriteLine();
-                    Console.WriteLine("Du har valt Enspelarläge");
-                    Console.WriteLine();
+                    Console.WriteLine("Du har valt Enspelarläge\n");
                     Console.ForegroundColor = ConsoleColor.Red;
                     
                     SpelarNamn();
@@ -48,7 +50,7 @@
                     SpelUppsättning();
                     while(true)
                     {
-                        if(Spelare1Turn)
+                        if(player1Turn)
                         {
                             SpelarDrag();
                         }
@@ -58,17 +60,8 @@
                         }
                         if(GameOver())
                         {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine();
-                            Console.WriteLine($"{(Spelare1Turn ? userNameMultiOne : "Datorn")} Vann!🎉🎉🎉");
-                            Console.WriteLine();
-                            if(Spelare1Turn)
-                            {
-                                player1vsAiwin++;
-                            }
-                            else{
-                                datornwin++;
-                            }
+                            HanteraVinstMotDatorn();
+
                             Console.WriteLine("Vill ni spela ett nytt parti? (ja/nej) Eller checka vinststatistik (1)");
                             string input = Console.ReadLine();
                             if(input == "1")
@@ -90,8 +83,6 @@
                     }
                     break;
                     
-                    
-
                 case "2":
                     Console.ForegroundColor = ConsoleColor.Magenta;
                     Console.WriteLine();
@@ -107,7 +98,7 @@
                     SpelUppsättning();
                     while(true)
                     {
-                        if(Spelare1Turn)
+                        if(player1Turn)
                         {
                             SpelarDrag();
                         }
@@ -117,18 +108,8 @@
                         }
                         if(GameOver())
                         {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine();
-                            Console.WriteLine($"{(Spelare1Turn ? userNameMultiOne : userNameMultiTwo)} Vann!🎉🎉🎉");
-                            Console.WriteLine();
-                            if(Spelare1Turn)
-                            {
-                                player1win++;
-                            }
-                            else
-                            {
-                                player2win++;
-                            }
+                            HanteraVinst();
+
                             Console.WriteLine("Vill ni spela ett nytt parti? (ja/nej) eller checka vinststatistik (1)");
                             string input = Console.ReadLine();
                             if(input == "1")
@@ -151,10 +132,6 @@
                 break;
 
                 case "3":
-                    Console.WriteLine("Under konstruktion");
-                    StartPage();
-                    break;
-                case "4":
                 Environment.Exit(0);
                 break;
 
@@ -173,19 +150,15 @@
                 do
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"{(Spelare1Turn ? userNameMultiOne : userNameMultiTwo)}, gör ditt drag genom att skriv hög mellanslag antal pinnar att ta bort: ");
+                    Console.WriteLine($"{(player1Turn ? userNameMultiOne : userNameMultiTwo)}, gör ditt drag genom att skriva hög mellanslag antal pinnar att ta bort: ");
 
                     string input = Console.ReadLine();
                     string[] svar = input.Split(' ');//Med hjälp av input.Split kan vi se våra värden på index 0 och 1 genom att skapa en string array för att sedan tryparsea input från spelaren
 
-                    if(svar.Length != 2) //Vi kollar om svaret inte är t.ex. 1 3 5 eller liknande. Genom att vi skapat en array av spelarens input så kan vi checka att längden måste var 2 siffror
+                    if(!int.TryParse(svar[0], out int högIndex) || !int.TryParse(svar[1], out int pinnarAttTaBort) && svar.Length != 2) //Vi sätter ! framför int.TryParse för att få bort alla andra spelarinputs som då skickar ett felmeddelande.
                     {
-                        Console.WriteLine("Fel inmatning, du skrev inte högnummer och pinnar på ett korrekt sätt, försök igen.");
-                    }
-                    if(!int.TryParse(svar[0], out int högIndex) || !int.TryParse(svar[1], out int pinnarAttTaBort)) //Vi sätter ! framför int.TryParse för att få bort alla andra spelarinputs som då skickar ett felmeddelande.
-                    {
-                        Console.WriteLine("Fel inmatning, antagligen för att det inte är heltal.");
-                        
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine("Fel inmatning, försök igen.");
                         continue;
                     }
 
@@ -198,7 +171,9 @@
                     }
                     else
                     {
-                        Console.WriteLine("Ogiltigt drag, försök igen.");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine();
+                        Console.WriteLine("Ogiltigt drag, försök igen.\n");
                     }
                 }
                 while(true);//Så länge denna while loop är true så kommer vi försöka få ett spelardrag, när vi får ett giltigt drag så breaker vi ur denna do-while loopen
@@ -208,8 +183,7 @@
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine();
-                Console.WriteLine("Något gick fel. Försök igen.");
-                Console.WriteLine();
+                Console.WriteLine("Fel inmatning. Försök igen.");
                 SpelUppsättning();
                 SpelarDrag();
             }
@@ -236,7 +210,6 @@
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine();
                 Console.WriteLine($"Välkomna {userNameMultiOne} och {userNameMultiTwo}. Nu kör vi igång!");
-                Console.WriteLine();
         }
         static void SpelarNamn()
         {
@@ -257,36 +230,36 @@
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine($"Välkommen {userNameMultiOne}. Nu kör vi igång!");
-                Console.WriteLine();
         }
         //Vi skriver ut vår array genom inbyggda metod string.Join så det ser snyggare ut för användaren.
         static void SpelUppsättning()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(string.Join(" ___ ", högar));
+            Console.WriteLine();
+            Console.WriteLine(string.Join(" ___ ", piles));
             Console.WriteLine();
 
         }
         //Vi kollar om det är ett giltigt drag från spelaren, checkar så vi till exempel inte kan addera pinnar, ta bort 0 pinnar och att de måste ange en hög som finns (1-3)
         static bool GiltigtDrag(int högIndex, int pinnarAttTaBort)
         {
-            return högIndex >= 0 && högIndex <= 2 && pinnarAttTaBort <= högar[högIndex].Length && pinnarAttTaBort > 0;
+            return högIndex >= 0 && högIndex <= 2 && pinnarAttTaBort <= piles[högIndex].Length && pinnarAttTaBort > 0;
         }
         //Tar Bort pinnar från given hög, genom att skapa en ny string på given index plats för att sedan gör en ny string utav char '|' - antal pinnar spelaren har angett
         static void TaBortPinnarFrånHög(int högIndex, int pinnarAttTaBort)
         {
-            högar[högIndex] = new string('|', högar[högIndex].Length - pinnarAttTaBort);
+            piles[högIndex] = new string('|', piles[högIndex].Length - pinnarAttTaBort);
             SpelUppsättning();
         }
-        //Kollar om Spelet är över om alla strings i string[] högar är tomma. Då returneras bool värdet true och breaker vår loop.
+        //Kollar om Spelet är över om alla strings i string[] piles är tomma. Då returneras bool värdet true och breaker vår loop.
         static bool GameOver()
         {
-            return högar[0] == "" && högar[1] == "" && högar[2] == "";
+            return piles[0] == "" && piles[1] == "" && piles[2] == "";
         }
         //Simpel metod som byter boolska värdet från true till false, med andra ord ett lätt sätt att byta spelardrag
         static bool SpelarDragByte()
         {
-            return Spelare1Turn = !Spelare1Turn;
+            return player1Turn = !player1Turn;
         }
         //Importerar en "AI" som tar fram random nummer, datorns random är inte så kallad "true random", men det är close enough för oss att kalla random
         static void AIDrag()
@@ -296,7 +269,7 @@
 
             do
             {
-                pileIndex = random.Next(0, högar.Length);
+                pileIndex = random.Next(0, piles.Length);
                 sticksToRemove = random.Next(1, 6); //Eftersom paramtern är exklusiv så menas det att den tar ett nummer mellan 1 och <6 men det menas att den tar ett nummer mellan 1 och 5.
 
             } while (!GiltigtDrag(pileIndex, sticksToRemove)); //Denna säger att så länge den inte ger oss ett giltigt drag så ska den fortsätta tills den får fram ett giltigt drag.
@@ -308,10 +281,10 @@
         }
         static void StartNewGame()
         {
-            högar[0] = new string('|', 5);
-            högar[1] = new string('|', 5);
-            högar[2] = new string('|', 5);
-            Spelare1Turn = true;
+            piles[0] = new string('|', 5);
+            piles[1] = new string('|', 5);
+            piles[2] = new string('|', 5);
+            player1Turn = true;
         }
         static void Vinststatistik()
         {
@@ -319,7 +292,6 @@
             Console.WriteLine($"{userNameMultiTwo} har vunnit {player2win} gånger");
             Console.WriteLine();
             StartNewGame();
-            
             StartPage();
 
         }
@@ -330,6 +302,36 @@
             Console.WriteLine();
             StartNewGame();
             StartPage();
+        }
+        static void HanteraVinstMotDatorn()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine();
+            Console.WriteLine($"{(player1Turn ? userNameMultiOne : "Datorn")} Vann!🎉🎉🎉");
+            Console.WriteLine();
+            if(player1Turn)
+            {
+                player1vsAiwin++;
+            }
+            else
+            {
+                datornwin++;
+            }
+        }
+        static void HanteraVinst()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine();
+            Console.WriteLine($"{(player1Turn ? userNameMultiOne : userNameMultiTwo)} Vann!🎉🎉🎉");
+            Console.WriteLine();
+            if(player1Turn)
+            {
+                player1win++;
+            }
+            else
+            {
+                player2win++;
+            }            
         }
     }
 }

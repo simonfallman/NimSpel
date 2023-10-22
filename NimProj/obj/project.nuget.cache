@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "K42Z12GPt7/Xv9jwd6yANve6sDLmeMGdw3W4Dzc/ifTsKvYfL92WYfZ3O7pPAMxojaCbWGBtJbxm88ndLU0b5Q==",
+  "dgSpecHash": "VkDetJy3J7Wh/2OevgO2GIIwV2Ufc5pmYCKC74YfUKgsDrGCiK2WCQZYZEjHtuEqxhqrB+aExP7yXfOizo9JHQ==",
   "success": true,
-  "projectFilePath": "/Users/simonfallman/NimSpel/NimSpel.csproj",
+  "projectFilePath": "/Users/simonfallman/NimSpel/NimProj/NimSpel.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/simonfallman/NimSpel/NimSpel.csproj",
+      "projectUniqueName": "/Users/simonfallman/NimSpel/NimProj/NimSpel.csproj",
       "projectName": "NimSpel",
-      "projectPath": "/Users/simonfallman/NimSpel/NimSpel.csproj",
+      "projectPath": "/Users/simonfallman/NimSpel/NimProj/NimSpel.csproj",
       "packagesPath": "/Users/simonfallman/.nuget/packages/",
-      "outputPath": "/Users/simonfallman/NimSpel/obj/",
+      "outputPath": "/Users/simonfallman/NimSpel/NimProj/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/simonfallman/.nuget/NuGet/NuGet.Config"
