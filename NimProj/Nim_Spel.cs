@@ -368,7 +368,7 @@
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine();
-            Console.WriteLine($"{(player1Turn ? userNameMultiOne : "Datorn")} Vann!🎉🎉🎉");
+            Console.WriteLine($"{(player1Turn ? userNameMultiOne : "Datorn")} Vann!🎉🎉🎉 Tack för du spelade!");
             Console.WriteLine();
             if (player1Turn)
             {
@@ -387,7 +387,7 @@
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine();
-            Console.WriteLine($"{(player1Turn ? userNameMultiOne : userNameMultiTwo)} Vann!🎉🎉🎉");
+            Console.WriteLine($"{(player1Turn ? userNameMultiOne : userNameMultiTwo)} Vann!🎉🎉🎉 Tack för att ni spelat!");
             Console.WriteLine();
             if (player1Turn)
             {
